@@ -1,22 +1,22 @@
-# Lustre HTMX
+# HX
 
-[![Package Version](https://img.shields.io/hexpm/v/lustre_htmx)](https://hex.pm/packages/lustre_htmx)
-[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/lustre_htmx/)
+[![Package Version](https://img.shields.io/hexpm/v/hx)](https://hex.pm/packages/hx)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/hx/)
 
-Lustre HTMX is a Gleam package that provides HTMX integration for the Lustre web framework. It allows you to easily add HTMX attributes to your Lustre HTML elements, enabling dynamic, AJAX-powered web applications with minimal JavaScript.
+HX is a Gleam package that provides HTMX integration for the Lustre web framework. It allows you to easily add HTMX attributes to your Lustre HTML elements, enabling dynamic, AJAX-powered web applications with minimal JavaScript.
 
 ## Installation
 
-Add `lustre_htmx` to your Gleam project:
+Add `hx` to your Gleam project:
 
 ```sh
-gleam add lustre_hx
+gleam add hx
 ```
 
 ## Usage
 
 ```Gleam
-import lustre_hx as hx
+import hx
 import lustre/element.{button, div, text}
 
 pub fn main() {
@@ -43,7 +43,7 @@ pub fn main() {
 
 ## Documentation
 
-For detailed documentation and examples, visit hexdocs.pm/lustre_htmx.
+For detailed documentation and examples, visit hexdocs.pm/hx.
 
 ## Development
 
