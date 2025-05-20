@@ -1,23 +1,23 @@
-import gleam/dynamic
 import gleam/json
 import gleam/option.{None, Some}
 import gleeunit
 import gleeunit/should
 import hx
 import lustre/attribute.{type Attribute}
-import lustre/internals/vdom.{Attribute}
+import lustre/vdom/vattr.{Attribute}
 
 pub fn main() {
   gleeunit.main()
 }
 
 fn assert_attribute(attribute: Attribute(_), name: String, value: String) {
-  let assert Attribute(attr_name, attr_value, False) = attribute
+  let assert Attribute(0, attr_name, attr_value) = attribute
+
   attr_name
   |> should.equal(name)
 
   attr_value
-  |> should.equal(value |> dynamic.from())
+  |> should.equal(value)
 }
 
 pub fn get_test() {
