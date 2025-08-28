@@ -288,3 +288,192 @@ pub fn disinherit_all_test() {
   hx.disinherit_all()
   |> assert_attribute("hx-disinherit", "*")
 }
+
+// ==== HTMX EVENTS TESTS ====
+
+pub fn common_events_test() {
+  // Test basic DOM events
+  hx.trigger([hx.click_event()])
+  |> assert_attribute("hx-trigger", "click")
+
+  hx.trigger([hx.change_event()])
+  |> assert_attribute("hx-trigger", "change")
+
+  hx.trigger([hx.submit_event()])
+  |> assert_attribute("hx-trigger", "submit")
+
+  hx.trigger([hx.load_event()])
+  |> assert_attribute("hx-trigger", "load")
+
+  hx.trigger([hx.input_event()])
+  |> assert_attribute("hx-trigger", "input")
+
+  hx.trigger([hx.focus_event()])
+  |> assert_attribute("hx-trigger", "focus")
+
+  hx.trigger([hx.blur_event()])
+  |> assert_attribute("hx-trigger", "blur")
+
+  hx.trigger([hx.keyup_event()])
+  |> assert_attribute("hx-trigger", "keyup")
+
+  hx.trigger([hx.keydown_event()])
+  |> assert_attribute("hx-trigger", "keydown")
+
+  hx.trigger([hx.mouseover_event()])
+  |> assert_attribute("hx-trigger", "mouseover")
+
+  hx.trigger([hx.mouseout_event()])
+  |> assert_attribute("hx-trigger", "mouseout")
+
+  hx.trigger([hx.scroll_event()])
+  |> assert_attribute("hx-trigger", "scroll")
+
+  hx.trigger([hx.resize_event()])
+  |> assert_attribute("hx-trigger", "resize")
+
+  hx.trigger([hx.dom_content_loaded_event()])
+  |> assert_attribute("hx-trigger", "DOMContentLoaded")
+}
+
+pub fn htmx_events_test() {
+  // Test HTMX-specific events
+  hx.trigger([hx.htmx_before_request_event()])
+  |> assert_attribute("hx-trigger", "htmx:beforeRequest")
+
+  hx.trigger([hx.htmx_after_request_event()])
+  |> assert_attribute("hx-trigger", "htmx:afterRequest")
+
+  hx.trigger([hx.htmx_before_swap_event()])
+  |> assert_attribute("hx-trigger", "htmx:beforeSwap")
+
+  hx.trigger([hx.htmx_after_swap_event()])
+  |> assert_attribute("hx-trigger", "htmx:afterSwap")
+
+  hx.trigger([hx.htmx_before_settle_event()])
+  |> assert_attribute("hx-trigger", "htmx:beforeSettle")
+
+  hx.trigger([hx.htmx_after_settle_event()])
+  |> assert_attribute("hx-trigger", "htmx:afterSettle")
+
+  hx.trigger([hx.htmx_load_event()])
+  |> assert_attribute("hx-trigger", "htmx:load")
+
+  hx.trigger([hx.htmx_config_request_event()])
+  |> assert_attribute("hx-trigger", "htmx:configRequest")
+
+  hx.trigger([hx.htmx_response_error_event()])
+  |> assert_attribute("hx-trigger", "htmx:responseError")
+
+  hx.trigger([hx.htmx_send_error_event()])
+  |> assert_attribute("hx-trigger", "htmx:sendError")
+
+  hx.trigger([hx.htmx_timeout_event()])
+  |> assert_attribute("hx-trigger", "htmx:timeout")
+
+  hx.trigger([hx.htmx_validation_validate_event()])
+  |> assert_attribute("hx-trigger", "htmx:validation:validate")
+
+  hx.trigger([hx.htmx_validation_failed_event()])
+  |> assert_attribute("hx-trigger", "htmx:validation:failed")
+
+  hx.trigger([hx.htmx_validation_halted_event()])
+  |> assert_attribute("hx-trigger", "htmx:validation:halted")
+
+  hx.trigger([hx.htmx_xhr_abort_event()])
+  |> assert_attribute("hx-trigger", "htmx:xhr:abort")
+
+  hx.trigger([hx.htmx_xhr_loadend_event()])
+  |> assert_attribute("hx-trigger", "htmx:xhr:loadend")
+
+  hx.trigger([hx.htmx_xhr_loadstart_event()])
+  |> assert_attribute("hx-trigger", "htmx:xhr:loadstart")
+
+  hx.trigger([hx.htmx_xhr_progress_event()])
+  |> assert_attribute("hx-trigger", "htmx:xhr:progress")
+}
+
+pub fn intersect_events_test() {
+  // Basic intersect event
+  hx.trigger([hx.intersect_event(None)])
+  |> assert_attribute("hx-trigger", "intersect")
+
+  // Intersect event with once modifier
+  hx.trigger([hx.intersect_once_event(None)])
+  |> assert_attribute("hx-trigger", "intersect once")
+
+  // Intersect event with options (using from modifier with CSS selector)
+  hx.trigger([hx.intersect_event(Some("10px"))])
+  |> assert_attribute("hx-trigger", "intersect from:10px")
+
+  // Intersect once with options
+  hx.trigger([hx.intersect_once_event(Some("20px 30px"))])
+  |> assert_attribute("hx-trigger", "intersect from:20px 30px once")
+}
+
+pub fn custom_events_test() {
+  // Test custom event creation
+  hx.trigger([hx.custom_event("myCustomEvent")])
+  |> assert_attribute("hx-trigger", "myCustomEvent")
+
+  // Test multiple custom events
+  hx.trigger([hx.custom_event("event1"), hx.custom_event("event2")])
+  |> assert_attribute("hx-trigger", "event1, event2")
+}
+
+pub fn event_modifiers_test() {
+  // Test with_delay modifier
+  hx.trigger([hx.with_delay(hx.click_event(), hx.Seconds(2))])
+  |> assert_attribute("hx-trigger", "click delay:2s")
+
+  // Test with_throttle modifier
+  hx.trigger([hx.with_throttle(hx.input_event(), hx.Milliseconds(300))])
+  |> assert_attribute("hx-trigger", "input throttle:300ms")
+
+  // Test with_once modifier
+  hx.trigger([hx.with_once(hx.click_event())])
+  |> assert_attribute("hx-trigger", "click once")
+
+  // Test with_changed modifier
+  hx.trigger([hx.with_changed(hx.input_event())])
+  |> assert_attribute("hx-trigger", "input changed")
+
+  // Test with_from modifier
+  hx.trigger([hx.with_from(hx.click_event(), hx.Document)])
+  |> assert_attribute("hx-trigger", "click from:document")
+
+  // Test with_target modifier
+  hx.trigger([hx.with_target(hx.click_event(), "#target")])
+  |> assert_attribute("hx-trigger", "click target:#target")
+
+  // Test with_consume modifier
+  hx.trigger([hx.with_consume(hx.click_event())])
+  |> assert_attribute("hx-trigger", "click consume")
+
+  // Test with_queue modifier
+  hx.trigger([hx.with_queue(hx.click_event(), Some(hx.First))])
+  |> assert_attribute("hx-trigger", "click queue:first")
+}
+
+pub fn chained_event_modifiers_test() {
+  // Test chaining multiple modifiers
+  let complex_event = 
+    hx.click_event()
+    |> hx.with_delay(hx.Milliseconds(100))
+    |> hx.with_once
+    |> hx.with_from(hx.Window)
+
+  hx.trigger([complex_event])
+  |> assert_attribute("hx-trigger", "click from:window once delay:100ms")
+}
+
+pub fn multiple_mixed_events_test() {
+  // Test combining different types of events
+  hx.trigger([
+    hx.click_event(),
+    hx.with_delay(hx.keyup_event(), hx.Seconds(1)),
+    hx.htmx_after_request_event(),
+    hx.intersect_once_event(None)
+  ])
+  |> assert_attribute("hx-trigger", "click, keyup delay:1s, htmx:afterRequest, intersect once")
+}

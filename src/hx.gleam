@@ -1454,3 +1454,268 @@ pub fn validate(bool: Bool) {
     False -> attribute("hx-validate", "false")
   }
 }
+
+// ==== HTMX EVENTS ====
+
+/// # Common HTMX Events
+/// 
+/// Pre-defined common HTMX events that can be used with the trigger function.
+/// These provide type-safe access to standard DOM and HTMX events.
+
+/// Creates a load event that fires when the element loads
+pub fn load_event() -> Event {
+  Event(event: "load", modifiers: [])
+}
+
+/// Creates a DOMContentLoaded event 
+pub fn dom_content_loaded_event() -> Event {
+  Event(event: "DOMContentLoaded", modifiers: [])
+}
+
+/// Creates a click event
+pub fn click_event() -> Event {
+  Event(event: "click", modifiers: [])
+}
+
+/// Creates a change event (useful for form inputs)
+pub fn change_event() -> Event {
+  Event(event: "change", modifiers: [])
+}
+
+/// Creates a submit event (useful for forms)
+pub fn submit_event() -> Event {
+  Event(event: "submit", modifiers: [])
+}
+
+/// Creates a keyup event
+pub fn keyup_event() -> Event {
+  Event(event: "keyup", modifiers: [])
+}
+
+/// Creates a keydown event  
+pub fn keydown_event() -> Event {
+  Event(event: "keydown", modifiers: [])
+}
+
+/// Creates a focus event
+pub fn focus_event() -> Event {
+  Event(event: "focus", modifiers: [])
+}
+
+/// Creates a blur event
+pub fn blur_event() -> Event {
+  Event(event: "blur", modifiers: [])
+}
+
+/// Creates a mouseover event
+pub fn mouseover_event() -> Event {
+  Event(event: "mouseover", modifiers: [])
+}
+
+/// Creates a mouseout event
+pub fn mouseout_event() -> Event {
+  Event(event: "mouseout", modifiers: [])
+}
+
+/// Creates an input event (fires on every character input)
+pub fn input_event() -> Event {
+  Event(event: "input", modifiers: [])
+}
+
+/// Creates a scroll event
+pub fn scroll_event() -> Event {
+  Event(event: "scroll", modifiers: [])
+}
+
+/// Creates a resize event
+pub fn resize_event() -> Event {
+  Event(event: "resize", modifiers: [])
+}
+
+// ==== HTMX-SPECIFIC EVENTS ====
+
+/// Creates an htmx:beforeRequest event
+/// Fires before an HTMX request is made
+pub fn htmx_before_request_event() -> Event {
+  Event(event: "htmx:beforeRequest", modifiers: [])
+}
+
+/// Creates an htmx:afterRequest event  
+/// Fires after an HTMX request completes
+pub fn htmx_after_request_event() -> Event {
+  Event(event: "htmx:afterRequest", modifiers: [])
+}
+
+/// Creates an htmx:beforeSwap event
+/// Fires before content is swapped into the DOM
+pub fn htmx_before_swap_event() -> Event {
+  Event(event: "htmx:beforeSwap", modifiers: [])
+}
+
+/// Creates an htmx:afterSwap event
+/// Fires after content has been swapped into the DOM
+pub fn htmx_after_swap_event() -> Event {
+  Event(event: "htmx:afterSwap", modifiers: [])
+}
+
+/// Creates an htmx:beforeSettle event
+/// Fires before the settling phase of HTMX
+pub fn htmx_before_settle_event() -> Event {
+  Event(event: "htmx:beforeSettle", modifiers: [])
+}
+
+/// Creates an htmx:afterSettle event
+/// Fires after the settling phase of HTMX
+pub fn htmx_after_settle_event() -> Event {
+  Event(event: "htmx:afterSettle", modifiers: [])
+}
+
+/// Creates an htmx:load event
+/// Fires when new content has been loaded into the DOM by HTMX
+pub fn htmx_load_event() -> Event {
+  Event(event: "htmx:load", modifiers: [])
+}
+
+/// Creates an htmx:configRequest event
+/// Fires before a request is configured, allows modification
+pub fn htmx_config_request_event() -> Event {
+  Event(event: "htmx:configRequest", modifiers: [])
+}
+
+/// Creates an htmx:responseError event
+/// Fires when an HTTP error response is received
+pub fn htmx_response_error_event() -> Event {
+  Event(event: "htmx:responseError", modifiers: [])
+}
+
+/// Creates an htmx:sendError event
+/// Fires when a network error occurs
+pub fn htmx_send_error_event() -> Event {
+  Event(event: "htmx:sendError", modifiers: [])
+}
+
+/// Creates an htmx:timeout event
+/// Fires when a request times out
+pub fn htmx_timeout_event() -> Event {
+  Event(event: "htmx:timeout", modifiers: [])
+}
+
+/// Creates an htmx:validation:validate event
+/// Fires when validation is run on a form
+pub fn htmx_validation_validate_event() -> Event {
+  Event(event: "htmx:validation:validate", modifiers: [])
+}
+
+/// Creates an htmx:validation:failed event
+/// Fires when validation fails on a form  
+pub fn htmx_validation_failed_event() -> Event {
+  Event(event: "htmx:validation:failed", modifiers: [])
+}
+
+/// Creates an htmx:validation:halted event
+/// Fires when validation is halted
+pub fn htmx_validation_halted_event() -> Event {
+  Event(event: "htmx:validation:halted", modifiers: [])
+}
+
+/// Creates an htmx:xhr:abort event
+/// Fires when a request is aborted
+pub fn htmx_xhr_abort_event() -> Event {
+  Event(event: "htmx:xhr:abort", modifiers: [])
+}
+
+/// Creates an htmx:xhr:loadend event
+/// Fires when a request load ends
+pub fn htmx_xhr_loadend_event() -> Event {
+  Event(event: "htmx:xhr:loadend", modifiers: [])
+}
+
+/// Creates an htmx:xhr:loadstart event
+/// Fires when a request load starts
+pub fn htmx_xhr_loadstart_event() -> Event {
+  Event(event: "htmx:xhr:loadstart", modifiers: [])
+}
+
+/// Creates an htmx:xhr:progress event  
+/// Fires during request progress
+pub fn htmx_xhr_progress_event() -> Event {
+  Event(event: "htmx:xhr:progress", modifiers: [])
+}
+
+// ==== INTERSECT EVENTS ====
+
+/// Creates an intersect event with options
+/// Fires when element enters/exits the viewport
+/// 
+/// ## Examples
+/// ```gleam
+/// // Simple intersect event
+/// hx.intersect_event(None)
+/// 
+/// // Intersect with root margin
+/// hx.intersect_event(Some("10px"))
+/// 
+/// // Intersect with multiple options  
+/// hx.intersect_event(Some("10px 20px"))
+/// ```
+pub fn intersect_event(options: Option(String)) -> Event {
+  case options {
+    Some(opts) -> Event(event: "intersect", modifiers: [From(CssSelector(opts))])
+    None -> Event(event: "intersect", modifiers: [])
+  }
+}
+
+/// Creates an intersect event that fires only once
+pub fn intersect_once_event(options: Option(String)) -> Event {
+  case options {
+    Some(opts) -> Event(event: "intersect", modifiers: [From(CssSelector(opts)), Once])
+    None -> Event(event: "intersect", modifiers: [Once])
+  }
+}
+
+// ==== EVENT HELPER FUNCTIONS ====
+
+/// Creates a custom event with the given name
+pub fn custom_event(event_name: String) -> Event {
+  Event(event: event_name, modifiers: [])
+}
+
+/// Adds a delay modifier to an existing event
+pub fn with_delay(event: Event, timing: Timing) -> Event {
+  Event(event: event.event, modifiers: [Delay(timing), ..event.modifiers])
+}
+
+/// Adds a throttle modifier to an existing event  
+pub fn with_throttle(event: Event, timing: Timing) -> Event {
+  Event(event: event.event, modifiers: [Throttle(timing), ..event.modifiers])
+}
+
+/// Adds a once modifier to an existing event
+pub fn with_once(event: Event) -> Event {
+  Event(event: event.event, modifiers: [Once, ..event.modifiers])
+}
+
+/// Adds a changed modifier to an existing event
+pub fn with_changed(event: Event) -> Event {
+  Event(event: event.event, modifiers: [Changed, ..event.modifiers])
+}
+
+/// Adds a from modifier to an existing event
+pub fn with_from(event: Event, extended_css_selector: ExtendedCssSelector) -> Event {
+  Event(event: event.event, modifiers: [From(extended_css_selector), ..event.modifiers])
+}
+
+/// Adds a target modifier to an existing event
+pub fn with_target(event: Event, css_selector: String) -> Event {
+  Event(event: event.event, modifiers: [Target(css_selector), ..event.modifiers])
+}
+
+/// Adds a consume modifier to an existing event
+pub fn with_consume(event: Event) -> Event {
+  Event(event: event.event, modifiers: [Consume, ..event.modifiers])
+}
+
+/// Adds a queue modifier to an existing event
+pub fn with_queue(event: Event, queue: Option(Queue)) -> Event {
+  Event(event: event.event, modifiers: [QueueEvent(queue), ..event.modifiers])
+}
