@@ -17,6 +17,8 @@ gleam add hx
 
 ```gleam
 import hx
+import hx/event
+import hx/timing
 import lustre/element.{button, div, input, text}
 
 pub fn main() {
@@ -27,13 +29,13 @@ pub fn main() {
     // POST with custom trigger event
     button([
       hx.post("/api/save"), 
-      hx.trigger([hx.click_event()])
+      hx.trigger([event.click()])
     ], [text("Save Data")]),
     
     // Input with throttled requests
     input([
       hx.get("/search"), 
-      hx.trigger([hx.with_throttle(hx.input_event(), hx.Milliseconds(300))])
+      hx.trigger([event.with_throttle(event.input(), timing.Milliseconds(300))])
     ], [])
   ])
 }
@@ -50,57 +52,70 @@ Complete support for all HTTP methods:
 - `hx.delete(url)` - DELETE requests
 
 ### ⚡ Event System
-**Pre-defined Events** - Type-safe event functions:
+**Pre-defined Events** - Type-safe event functions in the `hx/event` module:
 ```gleam
+import hx/event
+
 // Common DOM events
-hx.click_event()
-hx.change_event()
-hx.submit_event()
-hx.input_event()
-hx.focus_event()
-hx.blur_event()
+event.click()
+event.change()
+event.submit()
+event.input()
+event.focus()
+event.blur()
 // ... and more
 
 // HTMX lifecycle events
-hx.htmx_before_request_event()
-hx.htmx_after_request_event()
-hx.htmx_before_swap_event()
-hx.htmx_after_swap_event()
+event.htmx_before_request()
+event.htmx_after_request()
+event.htmx_before_swap()
+event.htmx_after_swap()
 // ... and more
 ```
 
 **Event Modifiers** - Chain modifiers for complex behavior:
 ```gleam
-hx.click_event()
-|> hx.with_delay(hx.Seconds(1))
-|> hx.with_once
-|> hx.with_throttle(hx.Milliseconds(500))
+import hx/event
+import hx/timing
+
+event.click()
+|> event.with_delay(timing.Seconds(1))
+|> event.with_once()
+|> event.with_throttle(timing.Milliseconds(500))
 ```
 
 **Intersection Observer** - Viewport-based triggers:
 ```gleam
-hx.trigger([hx.intersect_event(Some("10px"))])
-hx.trigger([hx.intersect_once_event(None)])
+import hx/event
+
+hx.trigger([event.intersect(Some("10px"))])
+hx.trigger([event.intersect_once(None)])
 ```
 
 ### 🎯 Content Targeting & Swapping
 Precise control over where and how content is updated:
 ```gleam
+import hx/css_selector
+import hx/attribute
+
 // Target specific elements
-hx.target(hx.CssSelector("#result"))
-hx.target(hx.Closest(".card"))
-hx.target(hx.This)
+hx.target(css_selector.CssSelector("#result"))
+hx.target(css_selector.Closest(".card"))
+hx.target(css_selector.This)
 
 // Control swapping behavior
-hx.swap(hx.InnerHTML, None)
-hx.swap(hx.OuterHTML, Some(hx.Transition(True)))
-hx.swap_oob(hx.Beforeend, Some("#log"), Some(hx.Scroll(hx.Bottom)))
+hx.swap(attribute.InnerHTML)
+hx.swap_with(attribute.OuterHTML, attribute.Transition(True))
+hx.swap_oob(attribute.Beforeend, Some("#log"))
 ```
 
 ### 🔄 Advanced Request Control
 **Synchronization**:
 ```gleam
-hx.sync([hx.Drop("#form"), hx.SyncQueue("#queue", hx.First)])
+import hx/attribute
+import hx/queue
+
+hx.sync([attribute.Drop("#form"), attribute.SyncQueue("#queue", queue.First)])
 ```
 
 **Headers & Values**:
@@ -118,8 +133,10 @@ hx.encoding("multipart/form-data")
 ### 🛡️ User Experience Features
 **Loading States**:
 ```gleam
+import hx/css_selector
+
 hx.indicator(".loading-spinner")
-hx.disable_elt([hx.CssSelector("button")])
+hx.disable_elt([css_selector.CssSelector("button")])
 ```
 
 **User Confirmation**:
@@ -138,15 +155,19 @@ hx.boost(True)  // Progressive enhancement
 ### 📝 Form Handling
 **Parameter Control**:
 ```gleam
+import hx/css_selector
+
 hx.params("username,email")  // Include only specific fields
 hx.params("not password")    // Exclude sensitive fields
-hx.include(hx.CssSelector("#extra-data"))
+hx.include(css_selector.CssSelector("#extra-data"))
 ```
 
 **Validation**:
 ```gleam
+import hx/event
+
 hx.validate(True)  // Enable HTML5 validation
-hx.trigger([hx.htmx_validation_failed_event()])
+hx.trigger([event.htmx_validation_failed()])
 ```
 
 ### 🎨 Client-Side Interactivity
@@ -180,86 +201,106 @@ hx.ext(["client-side-templates", "json-enc"])
 
 ### Basic Events
 ```gleam
+import hx/event
+
 // Simple click trigger
-hx.trigger([hx.click_event()])
+hx.trigger([event.click()])
 
 // Multiple events
-hx.trigger([hx.click_event(), hx.keyup_event()])
+hx.trigger([event.click(), event.keyup()])
 
 // Custom events
-hx.trigger([hx.custom_event("myEvent")])
+hx.trigger([event.custom("myEvent")])
 ```
 
 ### Event Modifiers
 ```gleam
+import hx/event
+import hx/timing
+import hx/css_selector
+
 // Delayed execution
-hx.trigger([hx.with_delay(hx.click_event(), hx.Seconds(2))])
+hx.trigger([event.with_delay(event.click(), timing.Seconds(2))])
 
 // Throttled input
-hx.trigger([hx.with_throttle(hx.input_event(), hx.Milliseconds(300))])
+hx.trigger([event.with_throttle(event.input(), timing.Milliseconds(300))])
 
 // Fire only once
-hx.trigger([hx.with_once(hx.click_event())])
+hx.trigger([event.with_once(event.click())])
 
 // Only on value change
-hx.trigger([hx.with_changed(hx.input_event())])
+hx.trigger([event.with_changed(event.input())])
 
 // Listen from different element
-hx.trigger([hx.with_from(hx.click_event(), hx.Document)])
+hx.trigger([event.with_from(event.click(), css_selector.Document)])
 ```
 
 ### HTMX Lifecycle Events
 ```gleam
+import hx/event
+
 // Before request processing
-hx.trigger([hx.htmx_before_request_event()])
+hx.trigger([event.htmx_before_request()])
 
 // After content swap
-hx.trigger([hx.htmx_after_swap_event()])
+hx.trigger([event.htmx_after_swap()])
 
 // Error handling
-hx.trigger([hx.htmx_response_error_event()])
+hx.trigger([event.htmx_response_error()])
 ```
 
 ### Polling
 ```gleam
+import hx/timing
+
 // Simple polling
-hx.trigger_polling(hx.Seconds(5), None)
+hx.trigger_polling(timing.Seconds(5), None, False)
 
 // Conditional polling
-hx.trigger_polling(hx.Seconds(10), Some("intersect"))
+hx.trigger_polling(timing.Seconds(10), Some("intersect"), False)
 
 // Load + polling
-hx.trigger_load_polling(hx.Seconds(2), "visible")
+hx.trigger_polling(timing.Seconds(2), None, True)
 ```
 
 ## Real-World Examples
 
 ### Search with Debouncing
 ```gleam
+import hx/event
+import hx/timing
+import hx/css_selector
+
 input([
   type_("text"),
   name("search"),
   hx.get("/api/search"),
-  hx.trigger([hx.with_throttle(hx.input_event(), hx.Milliseconds(300))]),
-  hx.target(hx.CssSelector("#search-results"))
+  hx.trigger([event.with_throttle(event.input(), timing.Milliseconds(300))]),
+  hx.target(css_selector.CssSelector("#search-results"))
 ], [])
 ```
 
 ### Infinite Scroll
 ```gleam
+import hx/event
+import hx/attribute
+import hx/css_selector
+
 div([
   hx.get("/api/more-items"),
-  hx.trigger([hx.intersect_once_event(None)]),
-  hx.swap(hx.Afterend, None),
-  hx.target(hx.This)
+  hx.trigger([event.intersect_once(None)]),
+  hx.swap(attribute.Afterend),
+  hx.target(css_selector.This)
 ], [text("Loading more...")])
 ```
 
 ### Form with Loading State
 ```gleam
+import hx/css_selector
+
 form([
   hx.post("/api/submit"),
-  hx.disable_elt([hx.CssSelector("button")]),
+  hx.disable_elt([css_selector.CssSelector("button")]),
   hx.indicator(".loading-spinner")
 ], [
   input([type_("text"), name("name")], []),
@@ -270,10 +311,13 @@ form([
 
 ### Real-time Updates
 ```gleam
+import hx/timing
+import hx/attribute
+
 div([
   hx.get("/api/status"),
-  hx.trigger_polling(hx.Seconds(5), None),
-  hx.swap(hx.InnerHTML, None)
+  hx.trigger_polling(timing.Seconds(5), None, False),
+  hx.swap(attribute.InnerHTML)
 ], [text("Status: Loading...")])
 ```
 
