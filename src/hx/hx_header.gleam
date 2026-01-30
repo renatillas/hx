@@ -11,7 +11,7 @@
 ////
 //// ### Wisp
 //// ```gleam
-//// import hx_header
+//// import hx/hx_header
 //// import wisp
 ////
 //// pub fn handler(req) {
@@ -27,7 +27,7 @@
 ////
 //// ### Mist
 //// ```gleam
-//// import hx_header
+//// import hx/hx_header
 //// import mist
 ////
 //// pub fn handler(req) {
@@ -42,7 +42,7 @@
 ////
 //// ### gleam_http
 //// ```gleam
-//// import hx_header
+//// import hx/hx_header
 //// import gleam/http/response as http_response
 ////
 //// pub fn handler(req) {

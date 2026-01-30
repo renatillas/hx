@@ -1,7 +1,7 @@
 import gleam/json
 import gleam/option.{None, Some}
 import gleeunit
-import hx_header
+import hx/hx_header
 
 pub fn main() {
   gleeunit.main()
