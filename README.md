@@ -18,7 +18,7 @@ gleam add hx
 ```gleam
 import gleam/time/duration
 import hx
-import lustre/element.{button, div, input, text}
+import lustre/element/html.{button, div, input, text}
 
 pub fn main() {
   div([], [
@@ -35,7 +35,7 @@ pub fn main() {
     input([
       hx.get(url: "/search"),
       hx.trigger([hx.with_throttle(hx.input(), duration.milliseconds(300))])
-    ], [])
+    ])
   ])
 }
 ```

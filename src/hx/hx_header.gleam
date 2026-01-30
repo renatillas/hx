@@ -25,21 +25,6 @@
 //// }
 //// ```
 ////
-//// ### Mist
-//// ```gleam
-//// import hx/hx_header
-//// import mist
-////
-//// pub fn handler(req) {
-////   let #(name, value) = hx_header.push_url("/new-url")
-////   mist.Response(
-////     status: 200,
-////     headers: [#(name, value)],
-////     body: mist.Bytes(bytes_builder.from_string("<div>Updated</div>"))
-////   )
-//// }
-//// ```
-////
 //// ### gleam_http
 //// ```gleam
 //// import hx/hx_header
